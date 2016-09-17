@@ -4,7 +4,7 @@
 .mtj.tmp/
 
 # myeclipse's 
-Service
+Servers
 .metadata
 
 
@@ -12,6 +12,7 @@ Service
 *.jar
 *.war
 *.ear
+*.class
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
