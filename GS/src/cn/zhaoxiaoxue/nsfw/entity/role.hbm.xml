@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="cn.zhaoxiaoxue.nsfw.entity.Role" table="role">
+		<id name="roleId" type="java.lang.String">
+			<column name="role_id" length="32"></column>
+			<generator class="uuid.hex"></generator>
+		</id>
+		
+		<property name="name" type="java.lang.String">
+			<column name="name" length="20" not-null="true"></column>
+		</property>
+		<property name="state" type="java.lang.String">
+			<column name="state" length="1" ></column>
+		</property>
+		<set name="rolePrivileges" inverse="true"  lazy="false" cascade="save-update,delete">
+			<key>
+				<column name="role_id"></column>
+			</key>
+			<one-to-many class="cn.zhaoxiaoxue.nsfw.entity.RolePrivilege"/>
+		</set>
+		
+	</class>
+</hibernate-mapping>

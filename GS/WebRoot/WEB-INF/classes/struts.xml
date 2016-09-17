@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>            
+   <!-- 禁用动态方法访问 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<!-- 配置成开发模式 -->
+	<constant name="struts.devMode" value="true" />
+	<!-- 配置拓展名为action -->
+	<constant name="struts.action.extention" value="action" />
+	<!-- 把主题配置成simple -->
+	<constant name="struts.ui.theme" value="simple" />
+	
+	<include file="cn/zhaoxiaoxue/nsfw/config/user_struts.xml"></include>
+	<include file="cn/zhaoxiaoxue/nsfw/config/role_struts.xml"></include>
+	
+	
+   	<package name="base-default" namespace="/" extends="json-default">
+   		<!-- 返回结果处理类型 -->
+   		
+   		<!-- 全局结果视图 -->
+   		<global-results>
+   			<result name="sysError">/WEB-INF/jsp/error.jsp</result>
+   			<result name="input">/WEB-INF/jsp/error.jsp</result>
+   		</global-results>
+   		<!-- 全局异常处理 -->
+   		<global-exception-mappings>
+   			<exception-mapping result="sysError" exception="cn.zhaoxiaoxue.core.exception.SysException"></exception-mapping>
+   			<exception-mapping result="input" exception="java.lang.Exception"></exception-mapping>
+   		</global-exception-mappings>
+   	</package>
+</struts>  
