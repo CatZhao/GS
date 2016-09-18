@@ -11,10 +11,12 @@
     	//账户名改变时，局部刷新向服务器请求数据（账户是否可用，可用返回true,不可用返回false）
     	function checkAccount(){
     		var account = $("#account").val().trim();
+    		var id = $("#userId").val();
+    		//alert(id);
     		if(account != ""){
 	    		$.ajax({
-		    		url:"${basePath }user_checkAccount.action",
-		    		data:{"user.account":account},
+		    		url:"${basePath }nsfw/user_checkAccount.action",
+		    		data:{"user.account":account,"user.id":id},
 		    		type:"post",
 		    		//开启同步模式，执行此函数时页面处于假死状态，必须执行完此函数才能继续执行下一行
 		    		async:true,
@@ -98,7 +100,9 @@
         </tr>
         <tr>
             <td class="tdBg" width="200px">角色：</td>
-            <td></td>
+            <td>
+            	<s:checkboxlist list="roleList" listKey="roleId" listValue="name" name="roleIds"></s:checkboxlist>
+            </td>
         </tr>
         <tr>
             <td class="tdBg" width="200px">电子邮箱：</td>
@@ -126,7 +130,7 @@
             <td><s:textarea name="user.memo" cols="75" rows="3"/></td>
         </tr>
     </table>
-    <s:hidden name="user.id"/>
+    <s:hidden name="user.id" id="userId"/>
     <div class="tc mt20">
         <input type="submit" class="btnB2" value="保存" />
         &nbsp;&nbsp;&nbsp;&nbsp;

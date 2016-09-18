@@ -1,6 +1,7 @@
 package cn.zhaoxiaoxue.nsfw.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class User {
 	private String id;
@@ -17,7 +18,14 @@ public class User {
 	private Date birthday;
 	private String memo;
 	
+	private List<UserRole> userRoles;
 	
+	public List<UserRole> getUserRoles() {
+		return userRoles;
+	}
+	public void setUserRoles(List<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}
 	public String getId() {
 		return id;
 	}

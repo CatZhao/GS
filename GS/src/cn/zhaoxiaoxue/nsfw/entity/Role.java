@@ -21,10 +21,17 @@ public class Role implements Serializable{
 		this.state = state;
 		this.rolePrivileges = rolePrivileges;
 	}
+	
 	public Role() {
 		super();
 		// TODO Auto-generated constructor stub
+	}	
+	
+	public Role(String roleId) {
+		super();
+		this.roleId = roleId;
 	}
+
 	public String getRoleId() {
 		return roleId;
 	}

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletOutputStream;
 
 import cn.zhaoxiaoxue.nsfw.entity.User;
+import cn.zhaoxiaoxue.nsfw.entity.UserRole;
 
 
 
@@ -16,7 +17,7 @@ public interface UserService {
 	//修改
 	public void update(User user);
 	//根据id删除
-	public void delete(Serializable id);
+	public void delete(String id);
 	
 	//根据id查找
 	public User findById(Serializable id);
@@ -24,8 +25,21 @@ public interface UserService {
 	public List<User> findAll();
 	//根据用户名模糊查找
 	public List<User> findByName(String name);
-	//根据账户名准确查找用户
-	public boolean isAccountAvailable(String account);
+	
+	//根据用户账户和密码查找数据库
+	public User findByAccountAndPwd(String account,String pwd);
+		
+	
+	//判断数据库中是否存在与该用户id不同的同名account
+	public boolean isAccountAvailable(User user);
+	
+	//保存用user和userRole roleIds是可变参
+	public void saveUserAndRole(User user,String... roleIds);
+	
+	public void updateUserAndRole(User user,String... roleIds);
+	//根据用户id获取用户对应的角色
+	public List<UserRole> findUserRolesByUserId(String id);
+	
 	
 	//使用excel导入用户
 	public void importExcel(File userExcel,String userExcelFileName);

@@ -17,7 +17,10 @@ import org.apache.struts2.json.annotations.JSON;
 
 import cn.zhaoxiaoxue.core.action.BaseAction;
 import cn.zhaoxiaoxue.core.util.ExcelUtil;
+import cn.zhaoxiaoxue.nsfw.entity.Role;
 import cn.zhaoxiaoxue.nsfw.entity.User;
+import cn.zhaoxiaoxue.nsfw.entity.UserRole;
+import cn.zhaoxiaoxue.nsfw.service.RoleService;
 import cn.zhaoxiaoxue.nsfw.service.UserService;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -30,19 +33,28 @@ public class UserAction extends BaseAction {
 		this.userService = userService;
 	}
 	
-
+	private RoleService roleService;
+	public void setRoleService(RoleService roleService) {
+		this.roleService = roleService;
+	}
 	//struts框架自动把表单数据放入valueStack(必须有get set方法）
 	private List<User> userList;
 	private User user;
 	//文件上传组件传来的文件，文件名，文件类型等数据
 	private File image;
 	private String imageFileName;
-	//private String headImgContentType;
+	private String imageContentType;
 	
 
 	//接收用户导入的excel表格
 	private File userExcel;
 	private String userExcelFileName;
+	
+	//角色列表
+	private List<Role> roleList;	
+	//用户对应的角色id
+	private String[] roleIds;
+	
 	
 	
 	//把用户列表导出到excel中，
@@ -105,7 +117,8 @@ public class UserAction extends BaseAction {
 	}
 	
 	//点击增加按钮调用这个方法，跳转去addUI.jsp
-	public String addUI(){		
+	public String addUI(){
+		roleList = roleService.findAll();
 		return "addUI";
 	}
 	
@@ -121,7 +134,7 @@ public class UserAction extends BaseAction {
 					FileUtils.copyFile(image, new File(imgPath,imgName));
 					user.setImage("user/"+imgName);
 				}
-				userService.save(user);
+				userService.saveUserAndRole(user, roleIds);;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,8 +145,21 @@ public class UserAction extends BaseAction {
 	
 	//转发去editUI.jsp页面，数据回显
 	public String editUI(){
+		roleList = roleService.findAll();
 		if(user != null && user.getId() != null){
 			user = userService.findById(user.getId());
+			
+			//获取用户对应的角色
+			List<UserRole> userRoleList = userService.findUserRolesByUserId(user.getId());
+			int roleNum = userRoleList.size();
+			roleIds = new String[roleNum];
+			
+			if(userRoleList != null && roleNum > 0){
+				int i = 0;
+				for(UserRole userRole : userRoleList){
+					roleIds[i++] = userRole.getId().getRole().getRoleId();
+				}
+			}
 		}
 		return "editUI";
 	}
@@ -150,7 +176,7 @@ public class UserAction extends BaseAction {
 					FileUtils.copyFile(image, new File(imgPath,imgName));
 					user.setImage("user/"+imgName);
 				}
-				userService.update(user);
+				userService.updateUserAndRole(user, roleIds);;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -165,7 +191,7 @@ public class UserAction extends BaseAction {
 			dataMap = new HashMap<String,Object>();
 			//根据账户名查找数据库
 			if(user != null && user.getAccount() != null){
-				boolean msg = userService.isAccountAvailable(user.getAccount());	
+				boolean msg = userService.isAccountAvailable(user);	
 				dataMap.put("msg", msg);
 			}
 		} catch (Exception e) {
@@ -231,7 +257,33 @@ public class UserAction extends BaseAction {
 		this.userExcelFileName = userExcelFileName;
 	}
 
+	@JSON(serialize=false)
+	public List<Role> getRoleList() {
+		return roleList;
+	}
 
+	public void setRoleList(List<Role> roleList) {
+		this.roleList = roleList;
+	}
+	@JSON(serialize=false)
+	public String[] getRoleIds() {
+		return roleIds;
+	}
+
+	public void setRoleIds(String[] roleIds) {
+		this.roleIds = roleIds;
+	}
+
+	@JSON(serialize=false)
+	public String getImageContentType() {
+		return imageContentType;
+	}
+
+	public void setImageContentType(String imageContentType) {
+		this.imageContentType = imageContentType;
+	}
+
+	
 
 
 }

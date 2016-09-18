@@ -22,6 +22,7 @@
 	
 	<bean id="userAction" class="cn.zhaoxiaoxue.nsfw.action.UserAction" scope="prototype">
 		<property name="userService" ref="userService"></property>
+		<property name="roleService" ref="roleService"></property>
 	</bean>
 	
 </beans>
