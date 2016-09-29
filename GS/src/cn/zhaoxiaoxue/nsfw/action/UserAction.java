@@ -16,7 +16,9 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.json.annotations.JSON;
 
 import cn.zhaoxiaoxue.core.action.BaseAction;
+import cn.zhaoxiaoxue.core.constant.Constant;
 import cn.zhaoxiaoxue.core.util.ExcelUtil;
+import cn.zhaoxiaoxue.core.util.PageResult;
 import cn.zhaoxiaoxue.nsfw.entity.Role;
 import cn.zhaoxiaoxue.nsfw.entity.User;
 import cn.zhaoxiaoxue.nsfw.entity.UserRole;
@@ -37,6 +39,7 @@ public class UserAction extends BaseAction {
 	public void setRoleService(RoleService roleService) {
 		this.roleService = roleService;
 	}
+	
 	//struts框架自动把表单数据放入valueStack(必须有get set方法）
 	private List<User> userList;
 	private User user;
@@ -86,14 +89,7 @@ public class UserAction extends BaseAction {
 		}
 		return "list";
 	}
-	
-	//根据用户名查找
-	public String searchUI(){
-		if(user != null && user.getName() != null)
-		userList = userService.findByName(user.getName());
-		return "searchUI";
-	}
-	
+
 	//根据id删除用户
 	public String delete(){
 		if(user != null && user.getId() != null){
@@ -110,9 +106,14 @@ public class UserAction extends BaseAction {
 		}
 		return "list";
 	}
-	//展示所有用户列表，去listUI页面
+	
+	//分页展示所有数据，去listUI页面
 	public String listUI(){
-		userList = userService.findAll();
+		Map<String,Object> condition = new HashMap<String,Object>();
+		if(keyword != null){
+			condition.put(" name like ? ", "%"+keyword+"%");
+		}
+		pr = userService.getPageResult(pageNo, PAGESIZE,condition);
 		return "listUI";
 	}
 	

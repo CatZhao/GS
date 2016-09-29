@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <package name="info-action" namespace="/nsfw" extends="base-default"> 
+    	<action name="info_*" class="infoAction" method="{1}">
+            <result name="{1}">/WEB-INF/jsp/nsfw/info/{1}.jsp</result>
+            <result name="listUI">/WEB-INF/jsp/nsfw/info/listUI.jsp</result>
+            <result name="list" type="redirectAction">
+            	<param name="actionName">info_listUI</param>
+            </result>
+            <result name="json" type="json">
+            	<param name="root">dataMap</param>
+            </result>          
+        </action>
+    </package>      
+</struts>

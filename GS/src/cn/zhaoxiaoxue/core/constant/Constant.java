@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Constant {
+	
 	public static String Login_USER = "SYS_USER";
 	public static String PRIVILEGE_XZGL = "xzgl";
 	public static String PRIVILEGE_ZXXX = "zxxx";

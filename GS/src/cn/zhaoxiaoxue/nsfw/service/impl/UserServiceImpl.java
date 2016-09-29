@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -14,6 +15,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import cn.zhaoxiaoxue.core.service.impl.BaseServiceImpl;
 import cn.zhaoxiaoxue.core.util.ExcelUtil;
 import cn.zhaoxiaoxue.nsfw.dao.UserDao;
 import cn.zhaoxiaoxue.nsfw.entity.Role;
@@ -22,41 +24,13 @@ import cn.zhaoxiaoxue.nsfw.entity.UserRole;
 import cn.zhaoxiaoxue.nsfw.entity.UserRoleId;
 import cn.zhaoxiaoxue.nsfw.service.UserService;
 
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
 	
 	//spring×¢ÈëuserDao
 	private UserDao userDao;	
 	public void setUserDao(UserDao userDao) {
+		super.setBaseDao(userDao);
 		this.userDao = userDao;
-	}
-
-	@Override
-	public void save(User user) {
-		
-		userDao.save(user);
-	}
-
-	@Override
-	public void update(User user) {
-		userDao.update(user);
-
-	}
-
-	@Override
-	public void delete(String id) {
-		userDao.delete(id);
-		userDao.deleteUserRoleById(id);
-	}
-
-	@Override
-	public User findById(Serializable id) {
-		
-		return userDao.findById(id);
-	}
-
-	@Override
-	public List<User> findAll() {		
-		return userDao.findAll();
 	}
 
 	@Override
@@ -77,8 +51,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findByName(String name) {
-		
-		return userDao.findByName(name);
+		String hql = "from User where name like ?";
+		List params = new ArrayList();
+		params.add("%"+name+"%");
+		return userDao.findObjects(hql, params);
 	}
 	
 	@Override

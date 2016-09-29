@@ -6,23 +6,14 @@ import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 
+import cn.zhaoxiaoxue.core.service.BaseService;
 import cn.zhaoxiaoxue.nsfw.entity.User;
 import cn.zhaoxiaoxue.nsfw.entity.UserRole;
 
 
 
-public interface UserService {
-	//新增用户
-	public void save(User user);
-	//修改
-	public void update(User user);
-	//根据id删除
-	public void delete(String id);
+public interface UserService extends BaseService<User> {
 	
-	//根据id查找
-	public User findById(Serializable id);
-	//查找所有用户
-	public List<User> findAll();
 	//根据用户名模糊查找
 	public List<User> findByName(String name);
 	

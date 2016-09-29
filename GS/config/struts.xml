@@ -13,6 +13,7 @@
 	<constant name="struts.ui.theme" value="simple" />
 	
 	<include file="cn/zhaoxiaoxue/nsfw/config/user_struts.xml"></include>
+	<include file="cn/zhaoxiaoxue/nsfw/config/info_struts.xml"></include>
 	<include file="cn/zhaoxiaoxue/nsfw/config/role_struts.xml"></include>
 	<include file="cn/zhaoxiaoxue/nsfw/config/home_struts.xml"></include>
 	<include file="cn/zhaoxiaoxue/home/config/home_struts.xml"></include>
@@ -28,9 +29,9 @@
    			<result name="input">/WEB-INF/jsp/error.jsp</result>
    		</global-results>
    		<!-- 全局异常处理 -->
-   		<global-exception-mappings>
+   		<!-- <global-exception-mappings>
    			<exception-mapping result="sysError" exception="cn.zhaoxiaoxue.core.exception.SysException"></exception-mapping>
    			<exception-mapping result="input" exception="java.lang.Exception"></exception-mapping>
-   		</global-exception-mappings>
+   		</global-exception-mappings> -->
    	</package>
 </struts>  

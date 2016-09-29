@@ -1,5 +1,6 @@
 package cn.zhaoxiaoxue.nsfw.action;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -21,15 +22,13 @@ public class RoleAction extends BaseAction {
 	private Map<String,String> privilegeMap = Constant.PRIVILEGE_MAP;
 	private String[] privilegeIds;
 	
-	public String searchUI() {
-		if (role != null && role.getName() != null) {
-			roleList = roleService.findByName(role.getName().trim());
-		}
-		return "searchUI";
-	}
-	
+	//分页展示所有数据，去listUI页面
 	public String listUI(){
-		roleList = roleService.findAll();
+		Map<String,Object> condition = new HashMap<String,Object>();
+		if(keyword != null){
+			condition.put(" name like ? ", "%"+keyword+"%");
+		}
+		pr = roleService.getPageResult(pageNo, PAGESIZE,condition);
 		return "listUI";
 	}
 	
